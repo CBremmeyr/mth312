@@ -3,9 +3,7 @@ BUILD_DIR = build/
 BUILD_LIST = affine-shift.o
 
 all: $(BUILD_LIST)
-	ls
 	cd build/
-	ls
 
 # Compile Affine Shift
 affine-shift.o: affine-shift.c
