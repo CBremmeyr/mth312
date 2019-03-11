@@ -2,23 +2,19 @@
  * Affine Shift
  * 
  * Author: Corbin Bremmeyr
- * Date: 30 January 2019
+ * Date: 11 March 2019
  * Description: Apply affine shift cipher to encrypt command line argument.
  */
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 
-// Change to produce different linear shifts
-#define MULT (7)
-#define OFFSET (3)
-
 // Start and end of visable ASCII characters
 #define CODE_START (32)
 #define CODE_END (126)
 
-int shift(int val);
-void affineShift(const char *clear, char *cipher);
+int shift(int val, const int mult, const int offset);
+void affineShift(const int mult, const int offset, const char *clear, char *cipher);
 
 int main(int argc, char **argv) {
 
@@ -26,9 +22,16 @@ int main(int argc, char **argv) {
     char *clearText = NULL;
     char *cipherText = NULL;
 
+    // Get multiplier and offset value from command line parameters
+    const int mult = atoi(argv[1]);
+    const int offset = atoi(argv[2]);
+
+    // TODO: check if the length of the string for the mult and offset 
+    //      inputs are too long and could lead to overflow
+
     // Calculate total string length of all arguments
     // Start at i=1 to ignore program name argument
-    for(int i=1; i<argc; ++i) {
+    for(int i=3; i<argc; ++i) {
         strSize += sizeof(char) * strlen(argv[i]);
     }
 
@@ -42,7 +45,7 @@ int main(int argc, char **argv) {
     }
 
     // Concat all argumnet strings into clear text string
-    for(int i=1; i < argc; ++i) {
+    for(int i=3; i < argc; ++i) {
 
         if(i > (strSize / sizeof(char)) ) {
             printf("ERROR: index out of range\n");
@@ -55,7 +58,7 @@ int main(int argc, char **argv) {
     // Start of cryptographic application //
 
     // Apply affine shift to clear text
-    affineShift(clearText, cipherText);
+    affineShift(mult, offset, clearText, cipherText);
 
     printf("Clear text: %s\nCipher text: %s\n", clearText, cipherText);
     // end //
@@ -69,20 +72,20 @@ int main(int argc, char **argv) {
 
 
 // Apply affine shift to 'clear' and write result to 'cipher'
-void affineShift(const char *clear, char *cipher) {
+void affineShift(const int mult, const int offset, const char *clear, char *cipher) {
 
     int temp;
 
     for(int i=0; i<strlen(clear); ++i) {
 
-        temp = ( shift((int)clear[i]) % (CODE_END - CODE_START) ) + CODE_START;
+        temp = ( shift((int)clear[i], mult, offset) % (CODE_END - CODE_START) ) + CODE_START;
         cipher[i] = (char)temp;
     }
 }
 
 // Apply linear shift to single char in clear text
-int shift(int val) {
+int shift(int val, const int mult, const int offset) {
 
-    return (MULT * val + OFFSET);
+    return (mult * val + offset);
 }
 
