@@ -9,12 +9,14 @@
 #include <stdio.h>
 #include <string.h>
 
+#define MAX_INT_DIGITS (10)
+
 // Start and end of visable ASCII characters
 #define CODE_START (32)
 #define CODE_END (126)
 
 int shift(int val, const int mult, const int offset);
-void affineShift(const int mult, const int offset, const char *clear, char *cipher);
+void affineShiftE(const int mult, const int offset, const char *clear, char *cipher);
 
 int main(int argc, char **argv) {
 
@@ -26,8 +28,25 @@ int main(int argc, char **argv) {
     const int mult = atoi(argv[1]);
     const int offset = atoi(argv[2]);
 
-    // TODO: check if the length of the string for the mult and offset 
-    //      inputs are too long and could lead to overflow
+    // Check if input values may have resulted in integer overflow
+    if((argv[1][0] != '-' && mult < 0) || 
+       (strlen(argv[1] > MAX_INT_DIGITS))) {
+        printf("WARNING: %s may have resulted in integer overflow.", argv[1]);
+    }
+    if((argv[2][0] != '-' && offset < 0) ||
+        (strlen(argv[2] > MAX_INT_DIGITS))) {
+        printf("WARNING: %s may have resulted in integer overflow.", argv[2]);
+    }
+
+    printf("multiplier = %i, offset = %i\n", mult, offset);
+
+    // TODO: check for valid mult and offset values
+    if(mult <= 0) {
+        printf("%i parameter should be greater than zero.\n", mult);
+        return 0;
+    }
+
+    // TODO: Check if affine shift has inverse
 
     // Calculate total string length of all arguments
     // Start at i=1 to ignore program name argument
@@ -72,7 +91,7 @@ int main(int argc, char **argv) {
 
 
 // Apply affine shift to 'clear' and write result to 'cipher'
-void affineShift(const int mult, const int offset, const char *clear, char *cipher) {
+void affineShiftE(const int mult, const int offset, const char *clear, char *cipher) {
 
     int temp;
 
