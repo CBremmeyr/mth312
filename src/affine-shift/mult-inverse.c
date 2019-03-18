@@ -24,7 +24,7 @@ int multInverse(int mult, int mod) {
         return -1;
     }
 
-    int vectorMemSize = VECTOR_LEN * sizeof(int);
+    // int vectorMemSize = VECTOR_LEN * sizeof(int);
     int *left = NULL;
     int *right = NULL;
     int *soln = NULL;
@@ -33,9 +33,9 @@ int multInverse(int mult, int mod) {
     int result = -1;
 
     // Allocate memory for vectors
-    left = malloc(vectorMemSize);
-    right = malloc(vectorMemSize);
-    soln = malloc(vectorMemSize);
+    left  = calloc(VECTOR_LEN, sizeof(int));
+    right = calloc(VECTOR_LEN, sizeof(int));
+    soln  = calloc(VECTOR_LEN, sizeof(int));
 
     // Check for allocation error
     if(left == NULL || right == NULL || soln == NULL) {

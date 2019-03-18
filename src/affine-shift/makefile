@@ -1,4 +1,4 @@
-CC = gcc
+CC = gcc -g
 LIBS = affine-shift.h
 DEPENDS = affine-shift-e.o affine-shift-d.o mult-inverse.o shift.o mod.o
 

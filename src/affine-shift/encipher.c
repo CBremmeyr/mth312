@@ -4,19 +4,17 @@
 
 #include "affine-shift.h"
 
-
-/**
- * Bug List:
- *      - Floating point exception
- */
+#define INPUT_COUNT (4)
+#define MULT_INDEX (1)
+#define OFFSET_INDEX (2)
 
 
 /**
  * Encipher message with Affine Shift. Uses multiplier, offset, and message from CLI arguments.
- * to run: $ encipher <multiplier> <offset> <message>
+ * To run: $ encipher <multiplier> <offset> <message>
  * 
  * Author: Corbin Bremmeyr
- * Date: 15 March 2019 
+ * Date: 18 March 2019 
  */
 int main(int argc, char **argv) {
 
@@ -28,6 +26,22 @@ int main(int argc, char **argv) {
     int strLen = 0;
     char *clearText = NULL;
     char *cipherText = NULL;
+
+    // Check for correct number of inputs
+    if(argc < INPUT_COUNT) {
+        printf("ERROR: too few arguments.\n");
+        return 0;
+    }
+
+    // Get mult and offset values from CLI arguments
+    mult = atoi(argv[MULT_INDEX]);
+    offset = atoi(argv[OFFSET_INDEX]);
+
+    // Check if mult value is valid
+    if(mult <= 0) {
+        printf("ERROR: invalid value for multiplier argument.\n");
+        return 0;
+    }
 
     // Find if 'mult' has an inverse
     if(multInverse(mult, codeLen) == 0) {
@@ -61,7 +75,7 @@ int main(int argc, char **argv) {
     }
 
     // Encipher clear text
-    affineShiftE(mult, codeLen, clearText, cipherText);
+    affineShiftE(mult, offset, clearText, cipherText);
 
     // Open file
     fp = fopen(FILE_NAME, "w");
