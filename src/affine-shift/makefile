@@ -5,7 +5,6 @@ DEPENDS = affine-shift-e.o affine-shift-d.o mult-inverse.o shift.o mod.o
 
 all: $(DEPENDS) encipher decipher
 build: $(DEPENDS) encipher decipher
-debug: $(DEPENDS) encipher decipher
 
 affine-shift-e.o: affine-shift-e.c
 	$(CC) $(FLAGS) -c affine-shift-e.c
