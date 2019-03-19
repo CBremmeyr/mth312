@@ -4,6 +4,10 @@
 
 #include "affine-shift.h"
 
+#define INPUT_COUNT (3)
+#define MULT_INDEX (1)
+#define OFFSET_INDEX (2)
+
 /**
  * Decipher Affine Shift. Takes multiplier and offset values from CLI arguments.
  */
@@ -11,31 +15,33 @@ int main(int argc, char **argv) {
 
     const int codeLen = CODE_END - CODE_START;  // Mod divisor
     int mult = 0;
-    int invMult = 0;
-    int offset = 0;
-    int invOffset = 0;
-    FILE *fp = 0;
+    int offset = 0; 
+    FILE *fp = NULL;
     int strLen = 0;
     char *clearText = NULL;
     char *cipherText = NULL;
 
+	// Check for correct number of inputs
+	if(argc < INPUT_COUNT) {
+		printf("ERROR: too few arguments to be valid.\n");
+		return 0;
+	}
+	
+	// Get multiplier value from CLI arguments
+	mult = atoi(argv[MULT_INDEX]);
+	offset = atoi(argv[OFFSET_INDEX]);
+
+	// Output mult and offset values to user for confimation
+	printf("Multiplier = %i\nOffset = %i\n", mult, offset);
+
+	// Check for valid mult value
+	if(mult < 0) {
+		printf("ERROR: invalid value for multiplier arg.\n");
+	}
+
     // Find if 'mult' has an inverse
     if(multInverse(mult, codeLen) == 0) {
         printf("WARNING: %i does not have a multiplicative inverse mod %i.\n", mult, codeLen);
-    }
-
-    // Allocate memory for clear text and cipher text
-    for(int i=3; i<argc; ++i) {
-        strLen += strlen(argv[i]);
-    }
-
-    clearText = calloc(sizeof(char), strLen);
-    cipherText = calloc(sizeof(char), strLen);
-
-    // Check for allocation errors
-    if(clearText == NULL || cipherText == NULL) {
-        printf("ERROR: allocation error.\n");
-        return 1;
     }
 
     // Open file with cipher text
@@ -48,11 +54,31 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    // Read cipher text from file
-    fgets(cipherText, sizeof(char) * strLen, fp);
+	// Get length of cipher text
+	fseek(fp, 0, SEEK_END);
+	strLen = ftell(fp);
 
-    // Close file
+	// Allocate memory for cipher and clear text strings	
+    clearText  = (char *) calloc(strLen + 1, sizeof(char));
+    cipherText = (char *) calloc(strLen + 1, sizeof(char));
+	
+    // Check for allocation errors
+    if(clearText == NULL || cipherText == NULL) {
+        printf("ERROR: allocation error.\n");
+        return 1;
+    }
+
+    // Read cipher text from file
+    if(fgets(cipherText, strLen + 1, fp) == NULL) {
+		printf("No cipher text read.\n");
+//		return 1;
+	}
+
+	// Close file
     fclose(fp);
+
+	// Print cipher text
+	printf("Cipher text: %s\n", cipherText);
 
     // Decipher Affine Shift
     affineShiftD(mult, codeLen, clearText, cipherText);
@@ -62,3 +88,4 @@ int main(int argc, char **argv) {
 
     return 0;
 }
+

@@ -37,6 +37,9 @@ int main(int argc, char **argv) {
     mult = atoi(argv[MULT_INDEX]);
     offset = atoi(argv[OFFSET_INDEX]);
 
+	// Output mult and offset to uesr for confimation
+	printf("Multiplier = %i\nOffset = %i\n", mult, offset);
+
     // Check if mult value is valid
     if(mult <= 0) {
         printf("ERROR: invalid value for multiplier argument.\n");
@@ -63,10 +66,10 @@ int main(int argc, char **argv) {
     }
 
     // Copy clear text from argv
-    for(int i=3; i < argc; ++i) {
+    for(int i=INPUT_COUNT-1; i < argc; ++i) {
 
         // Make sure that index being checked is valid
-        if(i > strLen) {
+        if(i > argc) {
             printf("ERROR: index out of range\n");
         }
         else {
@@ -74,8 +77,14 @@ int main(int argc, char **argv) {
         }
     }
 
+	// Print clear text
+	printf("Clear Text: %s\n", clearText);
+
     // Encipher clear text
     affineShiftE(mult, offset, clearText, cipherText);
+
+	// Print cipher text
+	printf("Ciper Text: %s\n", cipherText);
 
     // Open file
     fp = fopen(FILE_NAME, "w");
