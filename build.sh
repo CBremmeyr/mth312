@@ -13,13 +13,13 @@ cd $BASE_DIR
 
 # Build Affine shift
 cd $SRC_DIR/affine-shift/
-make all
+make build 
 mv decipher encipher $BASE_DIR/programs/affine-shift/
 cd $BASE_DIR
 
 # Build Pohlig-Hellman
 cd $SRC_DIR/pohlig-hellman/
-make all
+make build
 
 cd $BASE_DIR
 
