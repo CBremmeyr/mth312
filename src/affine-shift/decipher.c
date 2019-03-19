@@ -57,6 +57,7 @@ int main(int argc, char **argv) {
 	// Get length of cipher text
 	fseek(fp, 0, SEEK_END);
 	strLen = ftell(fp);
+	fseek(fp, 0, SEEK_SET);
 
 	// Allocate memory for cipher and clear text strings	
     clearText  = (char *) calloc(strLen + 1, sizeof(char));
@@ -71,7 +72,7 @@ int main(int argc, char **argv) {
     // Read cipher text from file
     if(fgets(cipherText, strLen + 1, fp) == NULL) {
 		printf("No cipher text read.\n");
-//		return 1;
+		return 1;
 	}
 
 	// Close file
@@ -81,7 +82,7 @@ int main(int argc, char **argv) {
 	printf("Cipher text: %s\n", cipherText);
 
     // Decipher Affine Shift
-    affineShiftD(mult, codeLen, clearText, cipherText);
+    affineShiftD(mult, offset, clearText, cipherText);
 
     // Output clear text to user
     printf("Clear text: %s\n", clearText);
