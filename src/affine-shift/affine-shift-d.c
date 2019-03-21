@@ -1,4 +1,5 @@
 #include <stddef.h>
+#include <string.h>
 
 #include "affine-shift.h"
 
@@ -8,14 +9,13 @@
  * Output: The clear text is placed in 'clearText' string. 'cipherText' and 'clearText' must be the same size.
  * Return: Zero is returned if no errors occured, -1 is returned if an error occured.
  */
-int affineShiftD(int mult, int offset, char *clearText, const char *cipherText) {
+int affineShiftD(int mult, int offset, char *clearText, char *cipherText) {
 
     const int codeLen = CODE_END - CODE_START;
     int invMult = 0;
     int invOffset = 0;
-    int temp = 0;
-
-    // Try to calculate mult's inverse
+    
+	// Try to calculate mult's inverse
     invMult = multInverse(mult, codeLen);
 
     // Check for valid inputs
@@ -36,10 +36,12 @@ int affineShiftD(int mult, int offset, char *clearText, const char *cipherText) 
     invOffset = mod(offset - codeLen, codeLen);
 
     // Apply inverse function
-    for(int i=0; i < codeLen; ++i) {
-        temp = ( shift((int)cipherText[i], invMult, invOffset) % codeLen) + CODE_START;
-        clearText[i] = (char)temp;
+    for(int i=0; i < strlen(cipherText); ++i) {
+		cipherText[i] -= CODE_START;
+		clearText[i] = (invMult * (cipherText[i] + invOffset)) % codeLen;
+		clearText[i] += CODE_START;
     }
+	clearText[strlen(cipherText)] = '\0';	
 
     // Return zero if no errors
     return 0;

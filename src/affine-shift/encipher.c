@@ -56,8 +56,8 @@ int main(int argc, char **argv) {
         strLen += strlen(argv[i]);
     }
 
-    clearText = calloc(sizeof(char), strLen);
-    cipherText = calloc(sizeof(char), strLen);
+    clearText  = calloc(strLen, sizeof(char));
+    cipherText = calloc(strLen, sizeof(char));
 
     // Check for allocation errors
     if(clearText == NULL || cipherText == NULL) {

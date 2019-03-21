@@ -1,5 +1,6 @@
 #include <stddef.h>
 #include <string.h>
+
 #include "affine-shift.h"
 
 /**
@@ -11,20 +12,19 @@
  */
 int affineShiftE(int mult, int offset, const char *clear, char *cipher) {
 
-    int temp = 0;
     int codeLen = CODE_END - CODE_START;
 
     // Check if shift is valid
-    if(multInverse(mult, (CODE_END - CODE_START)) <= 0) {
+    if(multInverse(mult, codeLen) <= 0) {
         return -1;
     }
 
     // Apply shift
     for(int i=0; i<strlen(clear); ++i) {
-
-        temp = ( shift((int)clear[i], mult, offset) % codeLen) + CODE_START;
-        cipher[i] = (char)temp;
+		cipher[i] = (mult * (clear[i] - CODE_START) + offset) % codeLen;	// Apply shift
+		cipher[i] += CODE_START;
     }
+	cipher[strlen(clear)] = '\0';
 
     return 0;
 }

@@ -23,7 +23,7 @@
 
 #ifndef AFFINE_SHIFT_D
 #define AFFINE_SHIFT_D
-    int affineShiftD(int mult, int offset, char *clearText, const char *cipherText);
+    int affineShiftD(int mult, int offset, char *clearText, char *cipherText);
 #endif
 
 #ifndef SHIFT

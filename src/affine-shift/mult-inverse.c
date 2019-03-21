@@ -24,10 +24,10 @@ int multInverse(int mult, int mod) {
         return -1;
     }
 
-    // int vectorMemSize = VECTOR_LEN * sizeof(int);
     int *left = NULL;
     int *right = NULL;
     int *soln = NULL;
+	int *temp = NULL;
 
     int dividend = 0;
     int result = -1;
@@ -43,14 +43,18 @@ int multInverse(int mult, int mod) {
     }
 
     // Assign larger value to top value of positive vector
-    if(mod > mult) {
-        left[0] = mod;
-        right[0] = mult;
-    }
-    else if(mult > mod) {
-        left[0] = mult;
-        right[0] = mod;
-    }
+//    if(mod > mult) {
+//        left[0] = mod;
+//        right[0] = mult;
+//    }
+//    else if(mult > mod) {
+//        left[0] = mult;
+//        right[0] = mod;
+//    }
+
+	// Assign top vector values
+	left[0] = mod;
+	right[0] = mult;
 
     // Set initial values
     left[1] = 1;
@@ -59,9 +63,10 @@ int multInverse(int mult, int mod) {
     right[1] = 0;
     right[2] = 1;
 
-    for(int i=0; i<VECTOR_LEN; ++i) {
-        soln[i] = 0;
-    }
+	// Not needed, calloc inits to zero
+//    for(int i=0; i<VECTOR_LEN; ++i) {
+//        soln[i] = 0;
+//    }
 
     // Extended Euclid Algorithem application
     while(1) {
@@ -96,9 +101,10 @@ int multInverse(int mult, int mod) {
         }
 
         // Move vector values by assigning pointer values
-        left = right;
+		temp  = left;
+        left  = right;
         right = soln;
-        soln = left;
+        soln  = temp;
     }
 
     // Clean up heap
