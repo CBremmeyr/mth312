@@ -5,22 +5,22 @@
 
 /**
  * Caculate the multiplicative inverse for some number 'mult' mod 
- * another number 'mod'. The Extended Euclidian Algorithm is used
+ * another number 'modulo'. The Extended Euclidian Algorithm is used
  * to calculate this.
  * 
  * Return: returns the inverse value if it exists. If there is no 
  *         inverse the a zero is returned. If the inputs are invalid
  *         a negative is returned.
  */
-int multInverse(int mult, int mod) {
+int multInverse(int mult, int modulo) {
 
     // Inputs must be positive to be valid
-    if(mult < 0 || mod < 0) {
+    if(mult < 0 || modulo < 0) {
         return -1;
     }
 
     // mod must be larger than mult to be valid
-    if(mult >= mod) {
+    if(mult >= modulo) {
         return -1;
     }
 
@@ -53,7 +53,7 @@ int multInverse(int mult, int mod) {
 //    }
 
 	// Assign top vector values
-	left[0] = mod;
+	left[0] = modulo;
 	right[0] = mult;
 
     // Set initial values
@@ -83,21 +83,26 @@ int multInverse(int mult, int mod) {
         if(soln[0] == 0) {
 
             // If mult inverse exists
-            if(right[0] == 1) {
+//            if(right[0] == 1) {
 
                 // Set return value to the positive multiplicative inverse
-                if(right[1] > 0) {
-                    result = right[1];
-                }
-                else {
-                    result = right[2];
-                }
-            }
-            else {
-                result = 0;
-            }
+//                if(right[1] > 0) {
+//                    result = right[1];
+//                }
+//                else {
+//                    result = right[2];
+//                }
+//            }
+//            else {
+//                result = 0;
+//            }
 
-            break;
+//            break;
+
+			// If mult inverse exists
+			if(right[0] == 1) {
+				result = mod(right[2], modulo);
+			}
         }
 
         // Move vector values by assigning pointer values

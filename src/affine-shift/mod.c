@@ -12,15 +12,17 @@ int mod(int val, int mod) {
         return -1;
     }
 
+	int result = val;
+
     // Calculate 'val' modulo 'mod'
     if(val < 0) {
-        while(val < 0) {
-            val += mod;
+        while(result < 0) {
+            result += mod;
         }
     }
     else if(val > 0) {
-        while(val > mod) {
-            val -= mod;
+        while(result > mod) {
+            result -= mod;
         }
 
     }
@@ -28,5 +30,5 @@ int mod(int val, int mod) {
         return 0;
     }
 
-    return val;
+    return result;
 }
