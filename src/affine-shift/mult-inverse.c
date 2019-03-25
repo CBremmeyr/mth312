@@ -102,6 +102,7 @@ int multInverse(int mult, int modulo) {
 			// If mult inverse exists
 			if(right[0] == 1) {
 				result = mod(right[2], modulo);
+				break;
 			}
         }
 

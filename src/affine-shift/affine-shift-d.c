@@ -33,7 +33,7 @@ int affineShiftD(int mult, int offset, char *clearText, char *cipherText) {
     }
 
     // Generate inverse shift funciton
-    invOffset = mod(offset - codeLen, codeLen);
+    invOffset = mod(codeLen - offset, codeLen);
 
     // Apply inverse function
     for(int i=0; i < strlen(cipherText); ++i) {
