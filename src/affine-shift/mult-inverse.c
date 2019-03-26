@@ -15,7 +15,7 @@
 int multInverse(int mult, int modulo) {
 
     // Inputs must be positive to be valid
-    if(mult < 0 || modulo < 0) {
+    if(mult <= 0 || modulo <= 0) {
         return -1;
     }
 
@@ -42,16 +42,6 @@ int multInverse(int mult, int modulo) {
         return -1;
     }
 
-    // Assign larger value to top value of positive vector
-//    if(mod > mult) {
-//        left[0] = mod;
-//        right[0] = mult;
-//    }
-//    else if(mult > mod) {
-//        left[0] = mult;
-//        right[0] = mod;
-//    }
-
 	// Assign top vector values
 	left[0] = modulo;
 	right[0] = mult;
@@ -63,10 +53,6 @@ int multInverse(int mult, int modulo) {
     right[1] = 0;
     right[2] = 1;
 
-	// Not needed, calloc inits to zero
-//    for(int i=0; i<VECTOR_LEN; ++i) {
-//        soln[i] = 0;
-//    }
 
     // Extended Euclid Algorithem application
     while(1) {
@@ -82,29 +68,17 @@ int multInverse(int mult, int modulo) {
         // Stop at zero, result value is the previous soln[0]
         if(soln[0] == 0) {
 
-            // If mult inverse exists
-//            if(right[0] == 1) {
-
-                // Set return value to the positive multiplicative inverse
-//                if(right[1] > 0) {
-//                    result = right[1];
-//                }
-//                else {
-//                    result = right[2];
-//                }
-//            }
-//            else {
-//                result = 0;
-//            }
-
-//            break;
-
 			// If mult inverse exists
 			if(right[0] == 1) {
 				result = mod(right[2], modulo);
-				break;
 			}
-        }
+			else {
+				result = 0;
+			}
+
+			break;
+		}
+    
 
         // Move vector values by assigning pointer values
 		temp  = left;
