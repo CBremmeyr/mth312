@@ -3,8 +3,10 @@ FLAGS = -g -Wall
 LIBS = affine-shift.h
 DEPENDS = affine-shift-e.o affine-shift-d.o mult-inverse.o shift.o mod.o
 
-all: $(DEPENDS) encipher decipher
+all: $(DEPENDS) encipher decipher clean
 build: $(DEPENDS) encipher decipher
+
+test: $(DEPENDS) m
 
 affine-shift-e.o: affine-shift-e.c
 	$(CC) $(FLAGS) -c affine-shift-e.c

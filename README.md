@@ -5,4 +5,4 @@ To build all programs use:
 	$ ./build.sh
 in the base directory of the project.
 
-The final binaries will be placed inside the 'programs' directory.
+The final binaries will be placed inside a subdirectory of the '/programs' directory.
